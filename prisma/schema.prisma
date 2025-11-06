@@ -1,0 +1,24 @@
+// prisma/schema.prisma
+
+// 1. Veritabanı Bağlantı Sağlayıcısı
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// 2. Prisma Client ayarı
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 3. Veritabanı Modeli (Task)
+model Task {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String   
+  description String?  
+  status      String   @default("Bekleyen") // Bekleyen, Devam Ediyor, Tamamlandı
+  priority    String   @default("Düşük") // Yüksek, Orta, Düşük
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  dueDate     DateTime?
+}
